@@ -21,4 +21,7 @@
 
 ## 发布来源
 
-本 Fork 的桌面端自动更新地址为 `Tingfe/lx-music-desktop` 的 GitHub Releases，不会下载原作者仓库的安装包。正式安装包必须由该仓库的 Release 工作流构建发布。
+本 Fork 的桌面端自动更新地址为 `Tingfe/lx-music-desktop` 的 GitHub Releases，不会下载原作者仓库的安装包。
+
+- 推送至 `master`：构建多平台测试包，并以 `test-v<运行号>` 创建 GitHub Pre-release；测试版只用于手动下载验证，不会被应用内更新识别。
+- 推送 `vX.Y.Z` Git tag：构建并发布正式多平台安装包。应用内自动更新仅从正式 Release 获取更新。

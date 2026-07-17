@@ -1,9 +1,13 @@
-name: Build Beta
+name: Build Test Packages
 
 on:
   push:
     branches:
-      - beta
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 env:
   IS_CI: 'true'
@@ -289,3 +293,28 @@ jobs:
         run: |
           cd build
           md5sum *.deb *.rpm *.pacman *.AppImage
+
+  Publish_test_release:
+    name: Publish test pre-release
+    needs: [Windows, Windows_7, Mac, Linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v6
+
+      - name: Download packages
+        uses: actions/download-artifact@v7
+        with:
+          pattern: lx-music-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Publish test pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test-v${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: LX Music Desktop 测试版 (${{ github.run_number }})
+          prerelease: true
+          generate_release_notes: true
+          files: release-assets/**
