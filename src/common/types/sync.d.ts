@@ -79,7 +79,12 @@ declare namespace LX {
     interface EnabledFeatures {
       list?: false | ListConfig
       dislike?: false | DislikeConfig
+      userApi?: false | UserApiConfig
+      settings?: false | SettingsConfig
     }
     type SupportedFeatures = Partial<{ [k in keyof EnabledFeatures]: number }>
+
+    interface UserApiConfig { skipSnapshot: boolean }
+    interface SettingsConfig { skipSnapshot: boolean }
   }
 }

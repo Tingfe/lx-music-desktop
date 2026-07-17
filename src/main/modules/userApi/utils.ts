@@ -150,3 +150,19 @@ export const setAllowShowUpdateAlert = (id: string, enable: boolean) => {
 export const getScript = async(id: string) => {
   return inflateScript(scripts.get(id) ?? '')
 }
+
+export type UserApiSyncData = Array<{ info: LX.UserApi.UserApiInfo, script: string }>
+
+export const getUserApiSyncData = async(): Promise<UserApiSyncData> => {
+  return Promise.all(getUserApis().map(async info => ({ info: { ...info }, script: await getScript(info.id) })))
+}
+
+export const overwriteUserApiSyncData = async(data: UserApiSyncData) => {
+  userApis = data.map(({ info }) => ({ ...info }))
+  scripts.clear()
+  await Promise.all(data.map(async({ info, script }) => {
+    scripts.set(info.id, await deflateScript(script))
+  }))
+  saveData()
+  return getUserApis()
+}

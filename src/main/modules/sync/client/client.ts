@@ -11,6 +11,7 @@ import { sendClientStatus } from '@main/modules/winMain'
 import { createMsg2call } from 'message2call'
 import { SYNC_CLOSE_CODE, SYNC_CODE } from '@common/constants_sync'
 import { getAddress } from '@common/utils/nodejs'
+import { removeSyncAuthKey } from './data'
 
 let status: LX.Sync.ClientStatus = {
   status: false,
@@ -84,7 +85,7 @@ const heartbeatTools = {
         status: false,
         message: `Try reconnnect... (${this.failedNum})`,
       })
-      connect(client.data.urlInfo, client.data.keyInfo)
+      connect(client.data.urlInfo, client.data.keyInfo, client.data.serverId)
     }, waitTime)
   },
   clearTimeout() {
@@ -149,12 +150,13 @@ const heartbeatTools = {
 
 let client: LX.Sync.Client.Socket | null
 // let listSyncPromise: Promise<void>
-export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.ClientKeyInfo) => {
+export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.ClientKeyInfo, serverId: string) => {
   client = new WebSocket(`${urlInfo.wsProtocol}//${urlInfo.hostPath}/socket?i=${encodeURIComponent(keyInfo.clientId)}&t=${encodeURIComponent(aesEncrypt(SYNC_CODE.msgConnect, keyInfo.key))}`, {
   }) as LX.Sync.Client.Socket
   client.data = {
     keyInfo,
     urlInfo,
+    serverId,
   }
   heartbeatTools.connect(client)
 
@@ -202,6 +204,8 @@ export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.Client
   client.remote = message2read.remote
   client.remoteQueueList = message2read.createQueueRemote('list')
   client.remoteQueueDislike = message2read.createQueueRemote('dislike')
+  client.remoteQueueUserApi = message2read.createQueueRemote('userApi')
+  client.remoteQueueSettings = message2read.createQueueRemote('settings')
 
   client.addEventListener('message', ({ data }) => {
     if (data == 'ping') return
@@ -238,6 +242,8 @@ export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.Client
     client!.moduleReadys = {
       list: false,
       dislike: false,
+      userApi: false,
+      settings: false,
     }
     disconnected = false
     sendSyncStatus({
@@ -265,9 +271,10 @@ export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.Client
         break
       case SYNC_CLOSE_CODE.failed:
         if (!status.message || status.message == initMessage) {
+          if (!client?.isReady) void removeSyncAuthKey(serverId)
           sendSyncStatus({
             status: false,
-            message: 'failed',
+            message: !client?.isReady ? SYNC_CODE.authFailed : 'failed',
           })
         }
         break

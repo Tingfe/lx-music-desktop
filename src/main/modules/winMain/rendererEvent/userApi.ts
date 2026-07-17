@@ -48,7 +48,9 @@ export default () => {
 export const sendStatusChange = (status: LX.UserApi.UserApiStatus) => {
   sendEvent(WIN_MAIN_RENDERER_EVENT_NAME.user_api_status, status)
 }
+export const sendUserApiListChanged = (list: LX.UserApi.UserApiInfo[]) => {
+  sendEvent(WIN_MAIN_RENDERER_EVENT_NAME.user_api_list_changed, list)
+}
 export const sendShowUpdateAlert = (info: LX.UserApi.UserApiUpdateInfo) => {
   sendEvent(WIN_MAIN_RENDERER_EVENT_NAME.user_api_show_update_alert, info)
 }
-

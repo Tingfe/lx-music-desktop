@@ -145,6 +145,12 @@ export const onUserApiStatus = (listener: LX.IpcRendererEventListenerParams<LX.U
     rendererOff(WIN_MAIN_RENDERER_EVENT_NAME.user_api_status, listener)
   }
 }
+export const onUserApiListChanged = (listener: LX.IpcRendererEventListenerParams<LX.UserApi.UserApiInfo[]>): RemoveListener => {
+  rendererOn(WIN_MAIN_RENDERER_EVENT_NAME.user_api_list_changed, listener)
+  return () => {
+    rendererOff(WIN_MAIN_RENDERER_EVENT_NAME.user_api_list_changed, listener)
+  }
+}
 export const getUserApiList = async() => {
   return rendererInvoke<LX.UserApi.UserApiInfo[]>(WIN_MAIN_RENDERER_EVENT_NAME.get_user_api_list)
 }

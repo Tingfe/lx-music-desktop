@@ -39,6 +39,12 @@ export const setSyncAuthKey = async(serverId: string, info: LX.Sync.ClientKeyInf
   void saveSyncAuthKeys()
 }
 
+export const removeSyncAuthKey = async(serverId: string) => {
+  await initClientInfo()
+  Reflect.deleteProperty(syncAuthKeys, serverId)
+  void saveSyncAuthKeys()
+}
+
 // let syncHost: string
 // export const getSyncHost = async() => {
 //   if (syncHost === undefined) {

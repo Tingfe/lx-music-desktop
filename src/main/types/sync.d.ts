@@ -12,16 +12,21 @@ declare global {
           data: {
             keyInfo: ClientKeyInfo
             urlInfo: UrlInfo
+            serverId: string
           }
           moduleReadys: {
             list: boolean
             dislike: boolean
+            userApi: boolean
+            settings: boolean
           }
 
           onClose: (handler: (err: Error) => (void | Promise<void>)) => () => void
           remote: LX.Sync.ServerSyncActions
           remoteQueueList: LX.Sync.ServerSyncListActions
           remoteQueueDislike: LX.Sync.ServerSyncDislikeActions
+          remoteQueueUserApi: LX.Sync.ServerSyncUserApiActions
+          remoteQueueSettings: LX.Sync.ServerSyncSettingsActions
         }
 
         interface UrlInfo {
@@ -41,6 +46,8 @@ declare global {
           moduleReadys: {
             list: boolean
             dislike: boolean
+            userApi?: boolean
+            settings?: boolean
           }
 
           onClose: (handler: (err: Error) => (void | Promise<void>)) => () => void
@@ -49,6 +56,8 @@ declare global {
           remote: LX.Sync.ClientSyncActions
           remoteQueueList: LX.Sync.ClientSyncListActions
           remoteQueueDislike: LX.Sync.ClientSyncDislikeActions
+          remoteQueueUserApi?: LX.Sync.ClientSyncUserApiActions
+          remoteQueueSettings?: LX.Sync.ClientSyncSettingsActions
         }
         type SocketServer = WS.Server<Socket>
       }
@@ -65,4 +74,3 @@ declare global {
 
   // type SyncListActionData = SyncListActionData_none | SyncListActionData_getData
 }
-

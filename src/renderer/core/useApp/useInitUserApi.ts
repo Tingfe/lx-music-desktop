@@ -1,6 +1,6 @@
 import { onBeforeUnmount, watch } from '@common/utils/vueTools'
 import { useI18n } from '@renderer/plugins/i18n'
-import { onUserApiStatus, getUserApiList, sendUserApiRequest as sendUserApiRequestRemote, userApiRequestCancel, onShowUserApiUpdateAlert } from '@renderer/utils/ipc'
+import { onUserApiStatus, getUserApiList, sendUserApiRequest as sendUserApiRequestRemote, userApiRequestCancel, onShowUserApiUpdateAlert, onUserApiListChanged } from '@renderer/utils/ipc'
 import { openUrl } from '@common/utils/electron'
 import { qualityList, userApi } from '@renderer/store'
 import { appSetting } from '@renderer/store/setting'
@@ -164,10 +164,14 @@ export default () => {
       })
     }
   })
+  const rUserApiListChanged = onUserApiListChanged(({ params }) => {
+    userApi.list = params
+  })
 
   onBeforeUnmount(() => {
     rUserApiStatus()
     rUserApiShowUpdateAlert()
+    rUserApiListChanged()
   })
 
   return async() => {
