@@ -1,4 +1,5 @@
 import { SYNC_CLOSE_CODE } from '@common/constants_sync'
+import { isThemeAvailable } from '@main/utils'
 
 const syncedKeys: Array<keyof LX.AppSetting> = [
   'common.langId',
@@ -15,9 +16,6 @@ const syncedKeys: Array<keyof LX.AppSetting> = [
   'list.isShowSource',
   'list.isSaveScrollLocation',
   'list.addMusicLocationType',
-  'theme.id',
-  'theme.lightId',
-  'theme.darkId',
 ]
 
 let applyingRemoteData = false
@@ -35,6 +33,15 @@ const applySyncData = (data: LX.Sync.SettingsSyncData) => {
     if (key in data) next[key] = data[key] as never
   }
   global.lx.event_app.update_config(next)
+}
+
+const repairThemeSetting = () => {
+  const next: Partial<LX.AppSetting> = {}
+  const setting = global.lx.appSetting
+  if (setting['theme.id'] != 'auto' && !isThemeAvailable(setting['theme.id'])) next['theme.id'] = 'green'
+  if (!isThemeAvailable(setting['theme.lightId'])) next['theme.lightId'] = 'green'
+  if (!isThemeAvailable(setting['theme.darkId'])) next['theme.darkId'] = 'black'
+  if (Object.keys(next).length) global.lx.event_app.update_config(next)
 }
 
 const handler: LX.Sync.ClientSyncHandlerSettingsActions<LX.Sync.Client.Socket> = {
@@ -59,6 +66,7 @@ const handler: LX.Sync.ClientSyncHandlerSettingsActions<LX.Sync.Client.Socket> =
     }
   },
   async settings_sync_finished(socket) {
+    repairThemeSetting()
     socket.moduleReadys.settings = true
     unregister?.()
     const listener = (keys: Array<keyof LX.AppSetting>) => {

@@ -209,6 +209,11 @@ export const openDevTools = (webContents: Electron.WebContents) => {
 
 
 let userThemes: LX.Theme[]
+export const isThemeAvailable = (id: string) => {
+  if (themes.some(theme => theme.id == id)) return true
+  userThemes ??= getStore(STORE_NAMES.THEME).get('themes') as (LX.Theme[] | null) ?? []
+  return userThemes.some(theme => theme.id == id)
+}
 export const getAllThemes = () => {
   userThemes ??= getStore(STORE_NAMES.THEME).get('themes') as (LX.Theme[] | null) ?? []
   return {
