@@ -1,7 +1,7 @@
 import { watch } from '@common/utils/vueTools'
 import { isFullscreen, proxy, sync, windowSizeList } from '@renderer/store'
 import { appSetting } from '@renderer/store/setting'
-import { sendSyncAction, setWindowSize } from '@renderer/utils/ipc'
+import { sendSyncAction, setWindowSize, updateSetting } from '@renderer/utils/ipc'
 import { setLanguage } from '@root/lang'
 import { setUserApi } from '../apiSource'
 // import { applyTheme, getThemes } from '@renderer/store/utils'
@@ -19,6 +19,10 @@ export default () => {
 
   watch(() => appSetting['common.langId'], (id) => {
     if (!id) return
+    if (!window.i18n.availableLocales.includes(id)) {
+      void updateSetting({ 'common.langId': 'zh-cn' })
+      return
+    }
     setLanguage(id)
     window.setLang(id)
   })

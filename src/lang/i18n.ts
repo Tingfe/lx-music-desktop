@@ -61,6 +61,9 @@ const createI18n = (): I18n => {
     messages,
     message: messages[locale.value],
     setLanguage(_locale: Langs) {
+      // Mobile uses locale IDs such as zh_cn while desktop uses zh-cn.
+      // Never leave the active translation table undefined when an external sync sends one.
+      if (!this.availableLocales.includes(_locale)) _locale = this.fallbackLocale
       this.locale = _locale
       this.message = messages[_locale]
       locale.value = _locale

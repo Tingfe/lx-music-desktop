@@ -2,7 +2,6 @@ import { SYNC_CLOSE_CODE } from '@common/constants_sync'
 import { isThemeAvailable } from '@main/utils'
 
 const syncedKeys: Array<keyof LX.AppSetting> = [
-  'common.langId',
   'common.sourceNameType',
   'player.togglePlayMethod',
   'player.playQuality',
