@@ -8,6 +8,8 @@ import {
   connectServer,
   disconnectServer,
   getClientStatus,
+  getRemoteDevices,
+  removeRemoteDevice,
   getServerDevices,
   removeServerDevice,
 } from '@main/modules/sync'
@@ -43,6 +45,12 @@ export default () => {
   })
   mainHandle<string>(WIN_MAIN_RENDERER_EVENT_NAME.sync_remove_server_device, async({ params: clientId }) => {
     await removeServerDevice(clientId)
+  })
+  mainHandle<never, LX.Sync.RemoteDevices>(WIN_MAIN_RENDERER_EVENT_NAME.sync_get_remote_devices, async() => {
+    return getRemoteDevices()
+  })
+  mainHandle<string>(WIN_MAIN_RENDERER_EVENT_NAME.sync_remove_remote_device, async({ params: clientId }) => {
+    await removeRemoteDevice(clientId)
   })
 }
 

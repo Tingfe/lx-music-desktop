@@ -139,6 +139,8 @@ const modules = {
     sync_action: 'sync_action',
     sync_get_server_devices: 'sync_get_server_devices',
     sync_remove_server_device: 'sync_remove_server_device',
+    sync_get_remote_devices: 'sync_get_remote_devices',
+    sync_remove_remote_device: 'sync_remove_remote_device',
 
     process_new_desktop_lyric_client: 'process_new_desktop_lyric_client',
 

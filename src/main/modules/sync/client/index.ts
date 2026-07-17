@@ -73,3 +73,5 @@ export {
 export {
   getStatus,
 } from './client'
+
+export { getRemoteDevices, removeRemoteDevice } from './devices'

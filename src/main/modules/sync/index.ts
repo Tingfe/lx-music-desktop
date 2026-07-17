@@ -17,6 +17,8 @@ export {
   connectServer,
   disconnectServer,
   getStatus as getClientStatus,
+  getRemoteDevices,
+  removeRemoteDevice,
 } from './client'
 
 export default () => {

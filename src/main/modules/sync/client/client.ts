@@ -298,3 +298,5 @@ export const disconnect = async() => {
 }
 
 export const getStatus = (): LX.Sync.ClientStatus => status
+
+export const getConnectionInfo = () => client?.data ?? null

@@ -8,18 +8,25 @@ dd
       .p.small {{ $t('setting__sync_client_host') }}
       div
         base-input.gap-left(:class="$style.hostInput" :model-value="appSetting['sync.client.host']" :disabled="sync.enable" :placeholder="$t('setting__sync_client_host_tip')" @update:model-value="setSyncClientHost")
+    .p(v-if="sync.client.status.status")
+      base-btn(outline @click="isShowDeviceListModal = true") 已连接设备
+remote-device-list-modal(v-model="isShowDeviceListModal")
 </template>
 
 <script>
-import { computed } from '@common/utils/vueTools'
+import { computed, ref } from '@common/utils/vueTools'
 import { sync } from '@renderer/store'
 import { useI18n } from '@renderer/plugins/i18n'
 import { appSetting, updateSetting } from '@renderer/store/setting'
 import { debounce } from '@common/utils/common'
 import { SYNC_CODE } from '@common/constants_sync'
+import RemoteDeviceListModal from './RemoteDeviceListModal.vue'
 
 export default {
   name: 'SettingSyncClient',
+  components: {
+    RemoteDeviceListModal,
+  },
   setup() {
     const t = useI18n()
 
@@ -46,6 +53,7 @@ export default {
     const setSyncClientHost = debounce(host => {
       updateSetting({ 'sync.client.host': host.trim() })
     }, 500)
+    const isShowDeviceListModal = ref(false)
 
 
     return {
@@ -53,6 +61,7 @@ export default {
       sync,
       setSyncClientHost,
       clientStatus,
+      isShowDeviceListModal,
     }
   },
 }

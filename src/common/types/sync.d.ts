@@ -40,6 +40,7 @@ declare namespace LX {
     | SyncAction<'enable_client', EnableClient>
 
     type ServerDevices = ServerKeyInfo[]
+    type RemoteDevices = RemoteDeviceInfo[]
 
     interface ServerStatus {
       status: boolean
@@ -67,6 +68,14 @@ declare namespace LX {
       deviceName: string
       lastConnectDate?: number
       isMobile: boolean
+    }
+    interface RemoteDeviceInfo {
+      clientId: string
+      deviceName: string
+      lastConnectDate?: number
+      lastSyncDate?: number
+      isMobile: boolean
+      isOnline: boolean
     }
 
     interface ListConfig {

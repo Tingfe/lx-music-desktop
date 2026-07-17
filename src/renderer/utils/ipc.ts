@@ -815,6 +815,14 @@ export const removeSyncServerDevice = (clientId: string) => {
   return rendererInvoke<string>(WIN_MAIN_RENDERER_EVENT_NAME.sync_remove_server_device, clientId)
 }
 
+export const getSyncRemoteDevices = () => {
+  return rendererInvoke<LX.Sync.RemoteDevices>(WIN_MAIN_RENDERER_EVENT_NAME.sync_get_remote_devices)
+}
+
+export const removeSyncRemoteDevice = (clientId: string) => {
+  return rendererInvoke<string>(WIN_MAIN_RENDERER_EVENT_NAME.sync_remove_remote_device, clientId)
+}
+
 
 // export const refreshSyncCode = async(): Promise<string> => {
 //   return rendererInvoke(WIN_MAIN_RENDERER_EVENT_NAME.sync_generate_code)
