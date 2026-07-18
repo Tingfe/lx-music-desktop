@@ -21,6 +21,7 @@ const defaultSetting: LX.AppSetting = {
   'common.playBarProgressStyle': 'mini',
   'common.transparentWindow': !isMac,
   'common.tryAutoUpdate': true,
+  'common.isEnablePreReleaseUpdate': false,
   'common.showChangeLog': true,
 
   'player.startupAutoPlay': false,
@@ -168,4 +169,3 @@ if (new Date().getMonth() < 2) {
 
 
 export default defaultSetting
-

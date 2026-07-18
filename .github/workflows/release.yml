@@ -216,3 +216,13 @@ jobs:
         run: |
           cd build
           md5sum *.deb *.rpm *.pacman *.AppImage
+
+  Publish_release:
+    name: Publish stable release
+    needs: [Windows, Windows_7, Mac, Linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft=false --title "LX Music Desktop $GITHUB_REF_NAME"

@@ -71,7 +71,7 @@ export default () => {
   const handleGetVersionInfo = async(): Promise<NonNullable<typeof versionInfo['newVersion']>> => {
     return (versionInfo.newVersion?.history && !versionInfo.reCheck
       ? Promise.resolve(versionInfo.newVersion)
-      : getVersionInfo().then((body: any) => {
+      : getVersionInfo(appSetting['common.isEnablePreReleaseUpdate']).then((body: any) => {
         versionInfo.newVersion = body
         return body
       })

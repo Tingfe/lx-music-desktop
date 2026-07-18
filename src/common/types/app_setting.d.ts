@@ -79,6 +79,11 @@ declare global {
       'common.tryAutoUpdate': boolean
 
       /**
+       * 是否接收测试版更新
+       */
+      'common.isEnablePreReleaseUpdate': boolean
+
+      /**
        * 更新版本后是否显示变更日志
        */
       'common.showChangeLog': boolean

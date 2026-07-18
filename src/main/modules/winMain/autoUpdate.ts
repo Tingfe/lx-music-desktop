@@ -141,6 +141,7 @@ const checkUpdate = () => {
   if (isWin && process.arch.includes('arm')) {
     handleSendEvent({ type: WIN_MAIN_RENDERER_EVENT_NAME.update_error, info: 'failed' })
   } else {
+    autoUpdater.allowPrerelease = global.lx.appSetting['common.isEnablePreReleaseUpdate']
     autoUpdater.autoDownload = global.lx.appSetting['common.tryAutoUpdate']
     void autoUpdater.checkForUpdates()
   }
