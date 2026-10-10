@@ -71,3 +71,12 @@ publish/assets
 publish/utils/githubToken.js
 
 src/**/*-internal.js
+# Private local configuration and signing material
+.env.*
+!.env.example
+!.env.sample
+*.jks
+*.p12
+*.pfx
+*.pem
+*.key

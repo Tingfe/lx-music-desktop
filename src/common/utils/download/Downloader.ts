@@ -139,8 +139,6 @@ class Task extends EventEmitter {
             return
           }
           if ((response.statusCode == 301 || response.statusCode == 302) && response.headers.location && this.redirectNum < this.maxRedirectNum) {
-            console.log('current url:', url)
-            console.log('redirect to:', response.headers.location)
             redirected = true
             this.redirectNum++
             const location = response.headers.location

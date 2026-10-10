@@ -47,7 +47,7 @@ const codeTools: {
 const checkDuplicateClient = (newSocket: LX.Sync.Server.Socket) => {
   for (const client of [...wss!.clients]) {
     if (client === newSocket || client.keyInfo.clientId != newSocket.keyInfo.clientId) continue
-    log.info('duplicate client', client.userInfo.name, client.keyInfo.deviceName)
+    log.info('duplicate client')
     client.isReady = false
     for (const name of Object.keys(client.moduleReadys) as Array<keyof LX.Sync.Server.Socket['moduleReadys']>) {
       client.moduleReadys[name] = false
@@ -91,7 +91,7 @@ const handleConnection = async(socket: LX.Sync.Server.Socket, request: IncomingM
   })
 
   // console.log('connection', keyInfo.deviceName)
-  log.info('connection', keyInfo.deviceName)
+  log.info('connection')
   // console.log(socket.handshake.query)
 
   socket.isReady = true
@@ -119,7 +119,7 @@ let sockets = new Set<Socket>()
 
 function noop() {}
 function onSocketError(err: Error) {
-  console.error(err)
+  log.error(err)
 }
 
 const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promise((resolve, reject) => {
@@ -192,8 +192,7 @@ const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promis
       },
       onError(error, path, groupName) {
         const name = groupName ?? ''
-        const deviceName = socket.keyInfo?.deviceName ?? ''
-        log.error(`sync call ${deviceName} ${name} ${path.join('.')} error:`, error)
+        log.error(`sync call ${name} ${path.join('.')} error:`, error)
         // if (groupName == null) return
         // socket.close(SYNC_CLOSE_CODE.failed)
       },
@@ -230,12 +229,11 @@ const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promis
       disconnected = true
       msg2call.destroy()
       if (socket.isReady) {
-        log.info('deconnection', socket.userInfo.name, socket.keyInfo.deviceName)
+        log.info('deconnection')
         // events = {}
         if (!status.devices.length) handleUnconnection()
       } else {
-        const queryData = new URL(request.url!, host).searchParams
-        log.info('deconnection', queryData.get('i'))
+        log.info('unauthed deconnection')
       }
     })
     socket.onClose = function(handler: typeof closeEvents[number]) {
@@ -257,7 +255,7 @@ const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promis
     // This function is not defined on purpose. Implement it with your own logic.
     authConnection(request, err => {
       if (err) {
-        console.log(err)
+        log.error(err)
         socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n')
         socket.destroy()
         return
@@ -273,7 +271,7 @@ const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promis
   const interval = setInterval(() => {
     wss?.clients.forEach(socket => {
       if (socket.isAlive == false) {
-        log.info('alive check false:', socket.userInfo.name, socket.keyInfo.deviceName)
+        log.info('alive check false')
         socket.terminate()
         return
       }
@@ -289,7 +287,7 @@ const handleStartServer = async(port = 9527, ip = '0.0.0.0') => await new Promis
   })
 
   httpServer.on('error', error => {
-    console.log(error)
+    log.error(error)
     reject(error)
   })
   httpServer.on('connection', (socket) => {
@@ -354,7 +352,7 @@ export const stopServer = async() => {
     status.address = []
     status.code = ''
   }).catch(err => {
-    console.log(err)
+    log.error(err)
     status.message = err.message
   }).finally(() => {
     sendServerStatus(status)
@@ -381,7 +379,7 @@ export const startServer = async(port: number) => {
     void generateCode()
     codeTools.start()
   }).catch(err => {
-    console.log(err)
+    log.error(err)
     status.status = false
     status.message = err.message
     status.address = []

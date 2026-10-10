@@ -1,4 +1,10 @@
 import log from 'electron-log/node'
+import { formatLogValue } from './privacy'
+
+log.hooks.push(message => {
+  message.data = message.data.map(formatLogValue)
+  return message
+})
 
 
 export const isLinux = process.platform == 'linux'
