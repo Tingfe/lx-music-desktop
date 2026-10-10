@@ -78,6 +78,8 @@ test('error messages are redacted and circular log objects fail closed', () => {
 test('local credentials and private signing files are ignored', () => {
   const ignore = fs.readFileSync(path.join(root, '.gitignore'), 'utf8')
   for (const pattern of ['.env', '.env.*', '*.jks', '*.p12', '*.pfx', '*.pem', '*.key']) {
-    assert.ok(ignore.split('\n').includes(pattern), 'Missing ignore rule: ' + pattern)
+    for (const content of [ignore, ignore.replace(/\r?\n/g, '\r\n')]) {
+      assert.ok(content.split(/\r?\n/).includes(pattern), 'Missing ignore rule: ' + pattern)
+    }
   }
 })
