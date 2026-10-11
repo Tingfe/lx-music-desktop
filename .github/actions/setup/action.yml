@@ -38,3 +38,7 @@ runs:
     - name: Upstream and update regression checks
       run: npm run test:upstream
       shell: bash
+
+    - name: Public update information regression checks
+      run: npm run test:update
+      shell: bash

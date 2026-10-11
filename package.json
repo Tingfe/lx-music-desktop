@@ -1,9 +1,10 @@
 {
   "name": "lx-music-desktop",
-  "version": "2.12.7",
+  "version": "2.12.8",
   "description": "一个免费的音乐查找助手",
   "main": "./dist/main.js",
   "scripts": {
+    "test:update": "node --test tests/update-regression.test.cjs",
     "test:upstream": "node --test tests/upstream-regression.test.cjs",
     "test:gd-studio": "node --test tests/gd-studio.test.cjs",
     "test:privacy": "node --test tests/privacy.test.cjs",

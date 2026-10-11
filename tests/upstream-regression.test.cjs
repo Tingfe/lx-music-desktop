@@ -139,8 +139,12 @@ if (desktop) {
   const stable = (tag = 'v2.12.6') => ({ tag_name: tag, body: 'fixture release', prerelease: false, draft: false })
   const preview = tag => ({ ...stable(tag), prerelease: true })
   const releaseApi = (release, releases = []) => load('src/renderer/utils/update.js', {
-    './request': { httpGet: (url, _, callback) => callback(null, { statusCode: 200 }, url.endsWith('/latest') ? release : releases) },
+    './request': { httpGet: (url, _, callback) => {
+      const convert = item => ({ version: item.tag_name.replace(/^v/, '').replace(/-test\.\d+$/, ''), releaseUrl: 'https://github.com/Tingfe/lx-music-desktop/releases/tag/' + item.tag_name })
+      callback(null, { statusCode: 200 }, { schemaVersion: 1, stable: convert(release), preview: releases.length ? convert(releases[0]) : null })
+    } },
     '@common/utils': { compareVer },
+    './releaseManifest': load('src/renderer/utils/releaseManifest.js'),
   })
   test('release selection never replaces a newer stable with an older preview', async() => {
     const api = releaseApi(stable(), [preview('v2.12.5-test.1')])

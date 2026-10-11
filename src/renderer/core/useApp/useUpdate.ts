@@ -44,6 +44,7 @@ export default () => {
   }
 
   const handleShowChangeLog = () => {
+    if (versionInfo.isUnknown || !versionInfo.newVersion) return
     isShowedChangeLog = true
     void getLastStartInfo().then((version) => {
       if (version == process.versions.app) return
@@ -68,13 +69,8 @@ export default () => {
     })
   }
 
-  const handleGetVersionInfo = async(): Promise<NonNullable<typeof versionInfo['newVersion']>> => {
-    return getVersionInfo(appSetting['common.isEnablePreReleaseUpdate']).catch(() => {
-      return {
-        version: '0.0.0',
-        desc: '',
-      }
-    })
+  const handleGetVersionInfo = async(): Promise<typeof versionInfo['newVersion']> => {
+    return getVersionInfo(appSetting['common.isEnablePreReleaseUpdate']).catch(() => null)
   }
 
   let updateCheckId = 0
@@ -84,10 +80,9 @@ export default () => {
     // eslint-disable-next-line @typescript-eslint/promise-function-async
     void handleGetVersionInfo().then((result) => {
       if (checkId !== updateCheckId) return
-      versionInfo.newVersion = result
       versionInfo.reCheck = false
 
-      if (result.version == '0.0.0') {
+      if (!result) {
         versionInfo.isLatest = false
         versionInfo.isUnknown = true
         versionInfo.status = 'error'
@@ -97,6 +92,7 @@ export default () => {
         }
         return
       }
+      versionInfo.newVersion = result
       versionInfo.isUnknown = false
       if (compareVer(versionInfo.version, result.version) != -1) {
         versionInfo.status = 'idle'
