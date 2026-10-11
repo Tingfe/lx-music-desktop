@@ -1,5 +1,7 @@
 import apiSourceInfo from './api-source-info'
 import { apiSource, userApi } from '@renderer/store'
+import { httpFetch } from '../request'
+import { createGdStudioApi, GD_SOURCE_ID, GD_QUALITYS } from './gd-studio'
 // import api_temp_kw from './kw/api-temp'
 // // import api_test_bd from './bd/api-test'
 // import api_test_tx from './tx/api-test'
@@ -18,8 +20,10 @@ const allApi = {
   // test_wy: api_test_wy,
 }
 
-const apiList = {}
-const supportQuality = {}
+const apiList = {
+  gd_studio_api_wy: createGdStudioApi(httpFetch, () => apiSource.value === GD_SOURCE_ID && window.lxData.appSetting['common.apiSource'] === GD_SOURCE_ID),
+}
+const supportQuality = { [GD_SOURCE_ID]: { wy: GD_QUALITYS } }
 
 for (const api of apiSourceInfo) {
   supportQuality[api.id] = api.supportQualitys

@@ -9,7 +9,9 @@ import {
   downloadList,
 } from './state'
 import { markRaw, toRaw } from '@common/utils/vueTools'
-import { getMusicUrl, getPicUrl, getLyricInfo } from '@renderer/core/music/online'
+import { getMusicUrl as getOnlineMusicUrl, getPicUrl, getLyricInfo } from '@renderer/core/music/online'
+import { assertDownloadAllowed } from '@renderer/utils/musicSdk/gd-studio'
+import { dialog } from '@renderer/plugins/Dialog'
 import { appSetting } from '../setting'
 import { qualityList } from '..'
 import { proxyCallback } from '@renderer/worker/utils'
@@ -31,6 +33,14 @@ const throttleUpdateTask = (tasks: LX.Download.ListItem[]) => {
 }
 
 const runingTask = new Map<string, LX.Download.ListItem>()
+const getMusicUrl: typeof getOnlineMusicUrl = async(params) => {
+  const sourceId = appSetting['common.apiSource']
+  assertDownloadAllowed(sourceId)
+  const url = await getOnlineMusicUrl(params)
+  assertDownloadAllowed(appSetting['common.apiSource'])
+  if (sourceId !== appSetting['common.apiSource']) throw new Error('音源已切换，请重试下载')
+  return url
+}
 
 // const initDownloadList = (list: LX.Download.ListItem[]) => {
 //   downloadList.splice(0, downloadList.length, ...list)
@@ -222,6 +232,10 @@ const getUrl = async(downloadInfo: LX.Download.ListItem, isRefresh: boolean = fa
   }).catch(() => '')
 }
 const handleRefreshUrl = (downloadInfo: LX.Download.ListItem) => {
+  try { assertDownloadAllowed(appSetting['common.apiSource']) } catch (error: any) {
+    handleError(downloadInfo, error.message)
+    return
+  }
   setStatusText(downloadInfo, window.i18n.t('download_status_error_refresh_url'))
   let toggleMusicInfo = downloadInfo.metadata.musicInfo.meta.toggleMusicInfo
   ;(toggleMusicInfo ? getMusicUrl({
@@ -257,6 +271,10 @@ const handleError = (downloadInfo: LX.Download.ListItem, message?: string) => {
 
 const handleStartTask = async(downloadInfo: LX.Download.ListItem) => {
   if (!downloadInfo.metadata.url) {
+    try { assertDownloadAllowed(appSetting['common.apiSource']) } catch (error: any) {
+      handleError(downloadInfo, error.message)
+      return
+    }
     setStatusText(downloadInfo, window.i18n.t('download_status_url_getting'))
     const url = await getUrl(downloadInfo)
     if (!url) {
@@ -356,6 +374,10 @@ const filterTask = (list: LX.Download.ListItem[]) => {
  */
 export const createDownloadTasks = async(list: LX.Music.MusicInfoOnline[], quality: LX.Quality, listId?: string) => {
   if (!list.length) return
+  try { assertDownloadAllowed(appSetting['common.apiSource']) } catch (error: any) {
+    void dialog({ message: error.message })
+    return
+  }
   const tasks = filterTask(await window.lx.worker.download.createDownloadTasks(list, quality,
     appSetting['download.fileName'],
     toRaw(qualityList.value), listId),

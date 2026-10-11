@@ -117,6 +117,7 @@ import { windowSizeList, userApi, isFullscreen, themeId } from '@renderer/store'
 import { langList, useI18n } from '@root/lang'
 import { getSystemFonts } from '@renderer/utils/ipc'
 import apiSourceInfo from '@renderer/utils/musicSdk/api-source-info'
+import { GD_SOURCE_ID, GD_SOURCE_NAME } from '@renderer/utils/musicSdk/gd-studio'
 import { useTimeout } from '@renderer/core/player/timeoutStop'
 import { dialog } from '@renderer/plugins/Dialog'
 
@@ -260,6 +261,7 @@ export default {
     }
     const apiSources = computed(() => {
       return [
+        { id: GD_SOURCE_ID, name: GD_SOURCE_NAME, label: GD_SOURCE_NAME, desc: '仅限学习参考；禁止下载、传播或商用', disabled: false },
         ...apiSourceInfo.map(api => ({
           id: api.id,
           name: api.name,

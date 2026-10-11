@@ -323,4 +323,8 @@ jobs:
           name: LX Music Desktop 测试版 (${{ github.run_number }})
           prerelease: true
           generate_release_notes: true
+          body: |
+            新增可选 GD音乐台（网易云·在线播放），支持 128k、320k、无损请求；默认不启用，请在设置中手动选择。
+            保留原有搜索、歌单和同步。遵循 GD 当前使用限制，仅在线播放；其他允许下载的音源不受影响。
+            本次为测试版，尚需实机验证。完整说明见仓库 docs/GD_STUDIO.md。
           files: release-assets/**

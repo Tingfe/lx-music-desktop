@@ -4,6 +4,7 @@ import { type ProgressInfo, type UpdateDownloadedEvent, type UpdateInfo } from '
 import { markRaw } from '@common/utils/vueTools'
 import * as hotKeys from '@common/hotKey'
 import { APP_EVENT_NAMES, DATA_KEYS, DEFAULT_SETTING } from '@common/constants'
+import { GD_SOURCE_ID } from './musicSdk/gd-studio'
 
 type RemoveListener = () => void
 
@@ -646,6 +647,8 @@ export const getThemes = async() => {
  * @returns
  */
 export const getMusicUrl = async(musicInfo: LX.Music.MusicInfo, type: LX.Quality): Promise<string> => {
+  // Read initialized window state without introducing an ipc -> setting -> ipc cycle.
+  if ((window.lxData.appSetting as LX.AppSetting)?.['common.apiSource'] === GD_SOURCE_ID) return ''
   return rendererInvoke<string, string>(WIN_MAIN_RENDERER_EVENT_NAME.get_music_url, `${musicInfo.id}_${type}`)
 }
 
@@ -656,6 +659,7 @@ export const getMusicUrl = async(musicInfo: LX.Music.MusicInfo, type: LX.Quality
  * @param url 歌曲URL
  */
 export const saveMusicUrl = async(musicInfo: LX.Music.MusicInfo, type: LX.Quality, url: string) => {
+  if ((window.lxData.appSetting as LX.AppSetting)?.['common.apiSource'] === GD_SOURCE_ID) return
   await rendererInvoke<LX.Music.MusicUrlInfo>(WIN_MAIN_RENDERER_EVENT_NAME.save_music_url, {
     id: `${musicInfo.id}_${type}`,
     url,

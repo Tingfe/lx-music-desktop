@@ -30,3 +30,7 @@ runs:
     - name: Privacy regression checks
       run: npm run test:privacy
       shell: bash
+
+    - name: GD music source regression checks
+      run: npm run test:gd-studio
+      shell: bash

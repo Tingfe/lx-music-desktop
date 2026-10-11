@@ -6,6 +6,8 @@ on:
 
 jobs:
   dispatch:
+    # Fork releases must not notify the upstream repository.
+    if: github.repository == 'lyswhut/lx-music-desktop'
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
