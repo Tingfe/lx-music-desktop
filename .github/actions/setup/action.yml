@@ -34,3 +34,7 @@ runs:
     - name: GD music source regression checks
       run: npm run test:gd-studio
       shell: bash
+
+    - name: Upstream and update regression checks
+      run: npm run test:upstream
+      shell: bash

@@ -1,4 +1,5 @@
 import log from 'electron-log/node'
+import os from 'node:os'
 import { formatLogValue } from './privacy'
 
 log.hooks.push(message => {
@@ -22,6 +23,8 @@ export const getPlatform = (platform: NodeJS.Platform = process.platform) => {
 
 
 // https://stackoverflow.com/a/53387532
+export const getOSVersion = (): string => /^(\d+)/.exec(os.release())?.[1] ?? os.release()
+
 export function compareVer(currentVer: string, targetVer: string): -1 | 0 | 1 {
   // treat non-numerical characters as lower version
   // replacing them with a negative number based on charcode of each character

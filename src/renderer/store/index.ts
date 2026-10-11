@@ -114,6 +114,8 @@ export const versionInfo = window.lxData.versionInfo = reactive<{
     version: string
     desc: string
     history?: LX.VersionInfo[]
+    releaseUrl?: string
+    manualDownload?: boolean
   } | null
   showModal: boolean
   isUnknown: boolean

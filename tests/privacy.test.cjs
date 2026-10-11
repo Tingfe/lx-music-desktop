@@ -44,7 +44,7 @@ test('sync authentication and URL parsing do not log credentials or endpoint URL
 test('electron logger hook redacts before transports', () => {
   const logger = { hooks: [] }
   load('src/common/utils/index.ts', {
-    'electron-log/node': logger, './privacy': privacy, './common': {},
+    'electron-log/node': logger, './privacy': privacy, './common': {}, 'node:os': require('node:os'),
   })
   assert.equal(logger.hooks.length, 1)
   const message = logger.hooks[0]({ data: [{ token: 'fixture-token', deviceName: 'fixture-device' }] })

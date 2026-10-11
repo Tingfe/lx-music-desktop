@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.12.7] - 2026-10-11
+
+- 选择性引入上游搜索、歌单、歌曲匹配与歌词修复，保留 Fork 定制功能。
+- 修复歌单排序保存、本地文件路径、主题背景和更新检查误报；限制同步重定向为同源。
+- 更新部分依赖并固定 pickr/webpack 版本，保留 Electron/SQLite 主版本供独立验证。
+- 增加上游回归检查和升级说明，详见 doc/UPSTREAM_SYNC.md。
+
 ## [2.12.5] - 2026-10-11
 
 ### 隐私保护

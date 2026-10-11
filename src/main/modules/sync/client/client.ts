@@ -1,4 +1,5 @@
 import WebSocket from 'ws'
+import type { ClientRequest } from 'node:http'
 import { encryptMsg, decryptMsg } from './utils'
 import { callObj } from './sync'
 // import { action as commonAction } from '@root/store/modules/common'
@@ -12,6 +13,7 @@ import { createMsg2call } from 'message2call'
 import { SYNC_CLOSE_CODE, SYNC_CODE } from '@common/constants_sync'
 import { getAddress } from '@common/utils/nodejs'
 import { removeSyncAuthKey } from './data'
+import { isAllowedSyncRedirect } from './redirect'
 
 let status: LX.Sync.ClientStatus = {
   status: false,
@@ -151,8 +153,14 @@ const heartbeatTools = {
 let client: LX.Sync.Client.Socket | null
 // let listSyncPromise: Promise<void>
 export const connect = (urlInfo: LX.Sync.Client.UrlInfo, keyInfo: LX.Sync.ClientKeyInfo, serverId: string) => {
-  client = new WebSocket(`${urlInfo.wsProtocol}//${urlInfo.hostPath}/socket?i=${encodeURIComponent(keyInfo.clientId)}&t=${encodeURIComponent(aesEncrypt(SYNC_CODE.msgConnect, keyInfo.key))}`, {
+  const socketUrl = `${urlInfo.wsProtocol}//${urlInfo.hostPath}/socket?i=${encodeURIComponent(keyInfo.clientId)}&t=${encodeURIComponent(aesEncrypt(SYNC_CODE.msgConnect, keyInfo.key))}`
+  client = new WebSocket(socketUrl, {
+    followRedirects: true,
+    maxRedirects: 3,
   }) as LX.Sync.Client.Socket
+  client.on('redirect', (url: string, request: ClientRequest) => {
+    if (!isAllowedSyncRedirect(socketUrl, url)) request.destroy(new Error('Sync redirect must stay on the same origin'))
+  })
   client.data = {
     keyInfo,
     urlInfo,

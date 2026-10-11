@@ -69,39 +69,26 @@ export default () => {
   }
 
   const handleGetVersionInfo = async(): Promise<NonNullable<typeof versionInfo['newVersion']>> => {
-    return (versionInfo.newVersion?.history && !versionInfo.reCheck
-      ? Promise.resolve(versionInfo.newVersion)
-      : getVersionInfo(appSetting['common.isEnablePreReleaseUpdate']).then((body: any) => {
-        versionInfo.newVersion = body
-        return body
-      })
-    ).catch(() => {
-      if (versionInfo.newVersion) return versionInfo.newVersion
-      let result = {
+    return getVersionInfo(appSetting['common.isEnablePreReleaseUpdate']).catch(() => {
+      return {
         version: '0.0.0',
         desc: '',
       }
-      versionInfo.newVersion = result
-      return result
     })
   }
 
-  let versionInfoPromise: null | ReturnType<typeof handleGetVersionInfo> = null
+  let updateCheckId = 0
 
   const showUpdateModal = (status?: LX.UpdateStatus) => {
-    if (versionInfoPromise) {
-      if (
-        // @ts-expect-error
-        versionInfoPromise.resolved &&
-        versionInfo.reCheck) {
-        versionInfoPromise = handleGetVersionInfo()
-      }
-    } else versionInfoPromise = handleGetVersionInfo()
+    const checkId = ++updateCheckId
     // eslint-disable-next-line @typescript-eslint/promise-function-async
-    void versionInfoPromise.then((result) => {
+    void handleGetVersionInfo().then((result) => {
+      if (checkId !== updateCheckId) return
+      versionInfo.newVersion = result
       versionInfo.reCheck = false
 
       if (result.version == '0.0.0') {
+        versionInfo.isLatest = false
         versionInfo.isUnknown = true
         versionInfo.status = 'error'
         let ignoreFailTipTime = parseInt(localStorage.getItem('update__check_failed_tip') ?? '0')
@@ -119,9 +106,13 @@ export default () => {
       }
 
       return getIgnoreVersion().then((ignoreVersion) => {
+        if (checkId !== updateCheckId) return
         versionInfo.isLatest = false
         let preStatus = versionInfo.status
-        if (status) versionInfo.status = status
+        if (result.manualDownload) {
+          versionInfo.status = 'idle'
+          clearUpdateTimeout()
+        } else if (status) versionInfo.status = status
         if (result.version === ignoreVersion) return
         void nextTick(() => {
           versionInfo.showModal = true
@@ -137,9 +128,6 @@ export default () => {
           }
         })
       })
-    }).finally(() => {
-      // @ts-expect-error
-      versionInfoPromise!.resolved = true
     })
   }
 
@@ -159,18 +147,11 @@ export default () => {
       showUpdateModal()
     })
   })
-  const rUpdateNotAvailable = onUpdateNotAvailable(({ params: info }) => {
+  const rUpdateNotAvailable = onUpdateNotAvailable(() => {
     clearUpdateTimeout()
-    // versionInfo.newVersion = {
-    //   version: info.version,
-    //   desc: info.releaseNotes as string,
-    // }
-    void handleGetVersionInfo().finally(() => {
-      versionInfo.isLatest = true
-      versionInfo.isUnknown = false
-      versionInfo.status = 'idle'
-      handleShowChangeLog()
-    })
+    // The stable updater feed may be older than the selected preview release.
+    versionInfo.reCheck = true
+    showUpdateModal('idle')
   })
   const rUpdateError = onUpdateError((params) => {
     clearUpdateTimeout()
@@ -198,6 +179,7 @@ export default () => {
   })
 
   onBeforeUnmount(() => {
+    updateCheckId++
     clearUpdateTimeout()
     rUpdateAvailable()
     rUpdateNotAvailable()

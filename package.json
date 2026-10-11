@@ -1,9 +1,10 @@
 {
   "name": "lx-music-desktop",
-  "version": "2.12.6",
+  "version": "2.12.7",
   "description": "一个免费的音乐查找助手",
   "main": "./dist/main.js",
   "scripts": {
+    "test:upstream": "node --test tests/upstream-regression.test.cjs",
     "test:gd-studio": "node --test tests/gd-studio.test.cjs",
     "test:privacy": "node --test tests/privacy.test.cjs",
     "pack": "node build-config/pack.js && npm run pack:win:setup:x64",
@@ -130,7 +131,7 @@
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "github:lyswhut/electron-devtools-installer#64596d615c1fc891eefd8aef1dfcb2c87aaadf03",
     "electron-to-chromium": "^1.5.345",
-    "electron-updater": "6.8.4",
+    "electron-updater": "6.8.9",
     "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -161,19 +162,19 @@
     "typescript": "5.9.3",
     "vue-eslint-parser": "^9.4.3",
     "vue-loader": "^17.4.2",
-    "webpack": "^5.106.2",
+    "webpack": "5.106.2",
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "5.2.3",
     "webpack-hot-middleware": "github:lyswhut/webpack-hot-middleware#329c4375134b89d39da23a56a94db651247c74a1",
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "@simonwep/pickr": "^1.9.1",
+    "@simonwep/pickr": "1.9.1",
     "better-sqlite3": "^12.9.0",
     "bufferutil": "^4.1.0",
     "comlink": "~4.3.1",
     "crypto-js": "^4.2.0",
-    "electron-log": "^5.4.3",
+    "electron-log": "5.4.4",
     "font-list": "^2.0.2",
     "iconv-lite": "^0.7.2",
     "image-size": "^1.1.0",
@@ -189,7 +190,7 @@
     "utf-8-validate": "^6.0.6",
     "vue": "~3.3.13",
     "vue-router": "~4.5.1",
-    "ws": "^8.20.0"
+    "ws": "8.21.3"
   },
   "overrides": {
     "got": "^11",
