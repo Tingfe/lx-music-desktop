@@ -219,6 +219,10 @@ if (desktop) {
   })
   test('local filename special characters produce complete file URLs', () => {
     const { encodePath } = load('src/common/utils/common.ts', {}, { process })
-    assert.equal(encodePath('/tmp/fixture #1.mp3'), 'file:///tmp/fixture%20%231.mp3')
+    const filename = path.join(require('node:os').tmpdir(), 'fixture #1.mp3')
+    const result = encodePath(filename)
+    assert.equal(result, require('node:url').pathToFileURL(filename).href)
+    assert.match(result, /^file:\/\//)
+    assert.match(result, /fixture%20%231\.mp3$/)
   })
 }
