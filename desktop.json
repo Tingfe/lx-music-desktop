@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "stable": {
+    "version": "2.12.3",
+    "desc": "Tingfe 同步增强版正式发布：支持自定义音源同步、跨端设置隔离与设备管理。",
+    "releaseUrl": "https://github.com/Tingfe/lx-music-desktop/releases/tag/v2.12.3",
+    "assets": [
+      {
+        "name": "lx-music-desktop-2.12.3-arm64.dmg",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-2.12.3-arm64.dmg"
+      },
+      {
+        "name": "lx-music-desktop-2.12.3-x64.dmg",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-2.12.3-x64.dmg"
+      },
+      {
+        "name": "lx-music-desktop-2.12.3.x64.rpm",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-2.12.3.x64.rpm"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-arm64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-arm64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-win7_x64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-win7_x64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-win7_x64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-win7_x64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-win7_x86-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-win7_x86-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-win_arm64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-win_arm64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-win_x64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-win_x64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.3-x64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop-v2.12.3-x64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop_2.12.3_amd64.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop_2.12.3_amd64.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.3_arm64.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop_2.12.3_arm64.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.3_armv7l.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop_2.12.3_armv7l.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.3_x64.AppImage",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop_2.12.3_x64.AppImage"
+      },
+      {
+        "name": "lx-music-desktop_2.12.3_x64.pacman",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.3/lx-music-desktop_2.12.3_x64.pacman"
+      }
+    ]
+  },
+  "preview": {
+    "version": "2.12.7",
+    "desc": "同步上游搜索、歌单、歌曲匹配和歌词修复，保留 Tingfe 同步扩展及 GD 可选接入。\n\n修复歌单顺序保存、本地特殊文件名、主题背景和版本更新误报；测试版更新提供本仓库下载页。\n\n测试包请先备份歌单后覆盖安装；本轮服务端无需更新。GD 当前仍禁止下载，其他允许下载的音源不受影响。\n\n本版本为测试版，尚需手机/实车及各桌面系统验证。完整范围见仓库 doc/UPSTREAM_SYNC.md。\n\n\n**Full Changelog**: https://github.com/Tingfe/lx-music-desktop/compare/v2.12.6-test.8...v2.12.7-test.10",
+    "releaseUrl": "https://github.com/Tingfe/lx-music-desktop/releases/tag/v2.12.7-test.10",
+    "assets": [
+      {
+        "name": "lx-music-desktop-2.12.7-arm64.dmg",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-2.12.7-arm64.dmg"
+      },
+      {
+        "name": "lx-music-desktop-2.12.7-x64.dmg",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-2.12.7-x64.dmg"
+      },
+      {
+        "name": "lx-music-desktop-2.12.7.x64.rpm",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-2.12.7.x64.rpm"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-arm64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-arm64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-win7_x64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-win7_x64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-win7_x64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-win7_x64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-win7_x86-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-win7_x86-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-win_arm64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-win_arm64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-win_x64-green.7z",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-win_x64-green.7z"
+      },
+      {
+        "name": "lx-music-desktop-v2.12.7-x64-Setup.exe",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop-v2.12.7-x64-Setup.exe"
+      },
+      {
+        "name": "lx-music-desktop_2.12.7_amd64.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop_2.12.7_amd64.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.7_arm64.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop_2.12.7_arm64.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.7_armv7l.deb",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop_2.12.7_armv7l.deb"
+      },
+      {
+        "name": "lx-music-desktop_2.12.7_x64.AppImage",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop_2.12.7_x64.AppImage"
+      },
+      {
+        "name": "lx-music-desktop_2.12.7_x64.pacman",
+        "browser_download_url": "https://github.com/Tingfe/lx-music-desktop/releases/download/v2.12.7-test.10/lx-music-desktop_2.12.7_x64.pacman"
+      }
+    ]
+  }
+}
